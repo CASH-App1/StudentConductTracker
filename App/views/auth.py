@@ -31,3 +31,4 @@ def user_():
     if user:
         return jsonify(message='Account created successfully'), 201
     return jsonify(error='Username already taken'), 400
+
