@@ -20,8 +20,8 @@ def user_login():
   data = request.json
   token = jwt_authenticate(data['username'], data['password'])
   if not token:
-    return jsonify(message='bad username or password given'), 401
-  return jsonify(access_token=token), 200
+    return jsonify(message='Incorrect username or password'), 401
+  return jsonify(token=token), 200
 
 
 @auth_views.route('/signup', methods=['POST'])
@@ -29,5 +29,5 @@ def user_():
     data = request.json
     user = create_user(username = data['username'], password = data['password'])
     if user:
-        return jsonify(message='account created successfully'), 201
-    return jsonify(error='username already taken'), 400
+        return jsonify(message='Account created successfully'), 201
+    return jsonify(error='Username already taken'), 400
