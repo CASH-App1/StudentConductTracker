@@ -34,9 +34,9 @@ class StaffMember(db.Model) :
 
     def createReview(student, descripotion, type):
 
-    def upvoteConductReview(Review):
+    def upvoteReview(reviewID):
 
-    def downvoteConductReview(Review);
+    def downvoteReview(reviewID);
 
 
     
