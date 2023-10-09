@@ -38,22 +38,7 @@ class StaffMember(db.Model) :
 
     def downvoteConductReview(Review);
 
-    def resolveConductReview(Review):
 
-    def logOut():
-
-    def logIn(username,password):
-        staff_member = StaffMember.query.filter_by(username=username).first()
-        if staff_member and staff_member.check_password(password):
-            login_user(staff_member)
-            return True
-        else:
-            return False
-            
-    def load_user(user_id):
-        return StaffMember.query.get(int(user_id))
-        
-    def addStudent():
     
 
 
