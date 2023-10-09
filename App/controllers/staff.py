@@ -2,8 +2,8 @@ from App.models import Staff
 from App.database import db
 
 # Controller to create a staff member
-def create_staff(username, password):
-    new_staff = Staff(username=username, password=password)
+def create_staff(username, password, email):
+    new_staff = Staff(username=username, password=password, email=email)
     db.session.add(new_staff)
     db.session.commit()
     return new_staff
@@ -21,15 +21,15 @@ def get_all_staff():
     return Staff.query.all()
 
 # Controller to update a staff member's username
-def update_staff(staffID, username):
+def update_staff(staffID, new_username, new_email):
     staff = get_staff(staffID)
     if staff:
-        staff.username = username
+        staff.username = new_username
+        staff.email = new_email
         db.session.add(staff)
         db.session.commit()
         return staff
     return None
-
 
 # Controller to change staff password
 def update_password(staff_id, new_password):
@@ -48,6 +48,9 @@ def get_all_staff_json():
         return []
     staff = [s.get_json() for s in staff]
     return staff
+
+
+
 
 
 
