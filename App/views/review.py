@@ -11,9 +11,9 @@ review_views = Blueprint('review_views', __name__, template_folder='../templates
 def karma_rank():
     data = request.json
     if data['vote'] == 'upvote':
-        upvote = upvote(data['review'])
+        upvote = upvote(data['reviewID'])
     else:
-        downvote = downvote(data['review'])
+        downvote = downvote(data['reviewID'])
 
     if upvote:
         return jsonify(message = 'Vote added successfully'), 200

@@ -27,8 +27,8 @@ def user_login():
 @auth_views.route('/signup', methods=['POST'])
 def user_():
     data = request.json
-    user = create_user(username = data['username'], password = data['password'])
-    if user:
+    staff = create_staff(username = data['username'], password = data['password'])
+    if staff:
         return jsonify(message='Account created successfully'), 201
     return jsonify(error='Username already taken'), 400
 
