@@ -10,7 +10,7 @@ def add_student(studentID, first_name, last_name):
 
 # Controller to get a student by username (student_id)
 def get_student(studentID):
-    return Student.query.filter_by(studentID=student_id).first()
+    return Student.query.filter_by(studentID=studentID).first()
 
 # Controller to get a list of all students
 def get_all_students():
