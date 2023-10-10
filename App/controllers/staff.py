@@ -3,7 +3,7 @@ from App.database import db
 
 # Controller to create a staff member
 def createStaff(username, password, email, firstName, lastName):
-    newStaff = StaffMember(username=username, password=password, email=email, firstName=firstName, lastName=lastName)
+    newStaff = StaffMember(username=username, set_password(password), email=email, firstName=firstName, lastName=lastName)
     db.session.add(newStaff)
     db.session.commit()
     return newStaff
