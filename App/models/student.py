@@ -7,5 +7,10 @@ class Student(db.Model):
   karmaScore: db.Column(db.Integer, nullable=False)
   reviews: db.relationship('Listing',backref=db.student('user', lazy='joined'))
 
-def updateKarmaScore( self, karmaScore):
+  def __init__(self, studentID, fname, lname):
+    self.studentID = studentID
+    self.fname = fname
+    self.lname = lname
+ 
+  def updateKarmaScore( self, karmaScore):
      self.karmaScore += karmaScore
