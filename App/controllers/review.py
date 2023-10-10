@@ -33,4 +33,4 @@ def downVote_review(reviewID):
 
 #Controller to get a review by reviewID
 def get_review(reviewID):
-    return Review.query.filter_by(reviewID=reviewID).first()
+    return Review.query.get(reviewID)
