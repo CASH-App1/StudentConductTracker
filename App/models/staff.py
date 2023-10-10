@@ -54,17 +54,6 @@ class StaffMember(db.Model) :
    # if (student.karmaScore>10):
    #     student.karmaScore = 10
 
-    def upvoteReview(reviewID):
-        for review in reviews:
-            if reviewID == review.reviewID:
-                if review.student.karmaScore != 10
-                    review.student.karmaScore += 1
-
-    def downvoteReview(reviewID):
-        for review in reviews:
-            if reviewID == review.reviewID:
-                if review.student.karmaScore != 0
-                    review.student.karmaScore -= 1
 
     def generate_id(length=5):
         characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
