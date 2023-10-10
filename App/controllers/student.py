@@ -3,7 +3,7 @@ from App.database import db
 
 # Controller to add a new student
 def add_student(studentID, first_name, last_name):
-    new_student = Student(studentID=studentID, firstName=first_name, lastName=last_name)
+    new_student = Student(studentID=studentID, fname=first_name, lname=last_name)
     db.session.add(new_student)
     db.session.commit()
     return new_student
