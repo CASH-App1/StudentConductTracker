@@ -1,4 +1,4 @@
-from App.models import Staff
+from App.models import StaffMember
 from App.database import db
 
 # Controller to create a staff member
