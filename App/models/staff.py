@@ -12,9 +12,12 @@ class StaffMember(db.Model) :
     password = db.Column(db.String(30), nullable=False)
     reviews = db.relationship('Review', backref= db.backref('staff', lazzy='joined'))
 
-    def __init__(self, username, password) :
-        self.username = username;
+    def __init__(self, username, password, email, firstName, lastName) :
+        self.username = username
         self.set_password(password)
+        self.email = email
+        self.firstName = fName
+        self.lastName = lName
 
     def  __repr__(self):
         return f'<StaffMember {self.staffID} - {self.username} - {self.fName} - {self.lName} - {self.email>'
