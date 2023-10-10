@@ -18,7 +18,7 @@ API Routes
 @auth_views.route('/login', methods=['POST'])
 def user_login():
   data = request.json
-  token = jwt_authenticate(data['username'], data['password'], data['email'])
+  token = jwt_authenticate(data['username'], data['password'])
   if not token:
     return jsonify(message='Incorrect username or password'), 401
   return jsonify(token=token), 200
@@ -27,7 +27,7 @@ def user_login():
 @auth_views.route('/signup', methods=['POST'])
 def user_():
     data = request.json
-    staff = create_staff(username = data['username'], password = data['password'])
+    staff = create_staff(username = data['username'], password = data['password'], email = data['email'])
     if staff:
         return jsonify(message='Account created successfully'), 201
     return jsonify(error='Username already taken'), 400
