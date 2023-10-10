@@ -21,7 +21,7 @@ def setup_flask_login(app):
     
     @login_manager.user_loader
     def load_user(user_id):
-        return User.query.get(user_id)
+        return StaffMember.query.get(user_id)
     
     return login_manager
 
@@ -30,14 +30,14 @@ def setup_jwt(app):
 
     @jwt.user_identity_loader
     def user_identity_lookup(identity):
-        user = User.query.filter_by(username=identity).one_or_none()
-        if user:
-            return user.id
+        staff = StaffMember.query.filter_by(username=identity).one_or_none()
+        if staff:
+            return staff.staffID
         return None
 
     @jwt.user_lookup_loader
     def user_lookup_callback(_jwt_header, jwt_data):
         identity = jwt_data["sub"]
-        return User.query.get(identity)
+        return StaffMember.query.get(identity)
 
     return jwt
