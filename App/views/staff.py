@@ -69,7 +69,7 @@ def update_student():
 @login_required
 def search_student():
     data = request.json
-    student = get_all_students(data['firstName'], data['lastName'])
+    student = get_students_by_name(data['firstName'], data['lastName'])
     if student:
         for s in student:
             return jsonify(student), 200
