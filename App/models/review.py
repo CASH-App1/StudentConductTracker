@@ -1,4 +1,5 @@
 from App.database import db
+from datetime import datetime
 
 class Review(db.Model):
   reviewID: db.Column(db.String(5), primary_Key=True)
@@ -7,7 +8,7 @@ class Review(db.Model):
   description: db.Column(db.String(1000), nullable=False)
   date: db.Column(db.DateTime, default = datetime.utcnow)
   upvote: db.Column(db.Integer, nullable=False)
-  downvote: db.Colum(db.Integer, nullable=False)
+  downvote: db.Column(db.Integer, nullable=False)
   reviewType: db.Column(db.String(8), nullable=False)
 
   def __init__(self, studentID, staffID, description, reviewType):
@@ -21,12 +22,12 @@ class Review(db.Model):
     return{
       'Review ID': self.reviewID,
       'Student ID': self.studentID,
-      'Staff ID': self.staffID
-      'Description' : self.description
-      'Date' : self.created.strftime("%Y/%m/%d, %H:%M: %S")
-      'Upvote': self.upvote
-      'Downvote'= self.downvote
-      'Review Type' = self.type
+      'Staff ID': self.staffID,
+      'Description' : self.description,
+      'Date' : self.created.strftime("%Y/%m/%d, %H:%M: %S"),
+      'Upvote': self.upvote,
+      'Downvote': self.downvote,
+      'Review Type' : self.type
     }
 
   def upvoteReview(self):
