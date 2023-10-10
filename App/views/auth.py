@@ -18,7 +18,7 @@ API Routes
 @auth_views.route('/login', methods=['POST'])
 def user_login():
   data = request.json
-  token = jwt_authenticate(data['username'], data['password'])
+  token = jwt_authenticate(data['username'], data['password'], data['email'])
   if not token:
     return jsonify(message='Incorrect username or password'), 401
   return jsonify(token=token), 200
