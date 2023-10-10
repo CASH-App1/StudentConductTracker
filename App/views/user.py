@@ -65,7 +65,7 @@ def update_student():
     return jsonify(error='Update unsuccessful'), 500
 
 
-@user_views.route('/search', methods=['PUT'])
+@user_views.route('/search', methods=['GET'])
 @login_required
 def search_student():
     data = request.json

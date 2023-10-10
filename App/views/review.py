@@ -6,7 +6,7 @@ from App.controllers import *
 
 review_views = Blueprint('review_views', __name__, template_folder='../templates')
 
-@review_views.route('/review', methods=['PUT'])
+@review_views.route('/view/student/review', methods=['PUT'])
 @login_required
 def karma_rank():
     data = request.json
@@ -15,7 +15,7 @@ def karma_rank():
     else:
         downvote = downvote_review(data['reviewID'])
 
-    if upvote:
+    if upvote or downvote:
         return jsonify(message = 'Vote added successfully'), 200
     return jsonify(error='Vote unsuccessful'), 500
 
