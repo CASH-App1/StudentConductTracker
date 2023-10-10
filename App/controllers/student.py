@@ -1,5 +1,5 @@
 from App.models import Student
-from App.database import db
+from App.database import db 
 
 # Controller to add a new student
 def add_student(studentID, first_name, last_name):
