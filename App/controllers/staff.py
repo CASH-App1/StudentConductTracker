@@ -2,7 +2,7 @@ from App.models import StaffMember
 from App.database import db
 
 # Controller to create a staff member
-def createStaff(username, password, email, firstName, lastName):
+def create_staff(username, password, email, firstName, lastName):
     newStaff = StaffMember(username=username, password = password, email=email, firstName=firstName, lastName=lastName)
     db.session.add(newStaff)
     db.session.commit()
