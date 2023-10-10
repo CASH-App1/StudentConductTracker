@@ -2,12 +2,12 @@ from App.models import Staff
 from App.database import db
 
 # Controller to create a staff member
-def create_staff(username, password, email):
-    new_staff = Staff(username=username, password=password, email=email)
-    db.session.add(new_staff)
+def createStaff(username, password, email, firstName, lastName):
+    newStaff = Staff(username=username, password=password, email=email, firstName=firstName, lastName=lastName)
+    db.session.add(newStaff)
     db.session.commit()
-    return new_staff
-
+    return newStaff
+    
 # Controller to get a staff member by username
 def get_staff_by_username(username):
     return Staff.query.filter_by(username=username).first()
