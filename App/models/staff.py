@@ -34,8 +34,8 @@ class StaffMember(db.Model) :
     def check_password(self, password):
         return check_password_hash(self.password, password)
 
-    def createReview(student, description, type, upvote, downvote):
-        review = 
+    def createReview(self, reviewID,studentID, staffID, upvote, downvote):
+        review =Review.__init__(self, reviewID, studentID, staffID, description, upvote, downvote):
         
 
     def upvoteReview(reviewID):
