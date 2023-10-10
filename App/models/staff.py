@@ -1,6 +1,7 @@
 from werkzeug.security import check_password_hash, generate_password_hash
 from flask_login import UserMixin, login_user
 from App.database import db
+import random
 
 class StaffMember(db.Model) :
     staffID = db.Column(db.String(5), primary_key=True)
@@ -16,7 +17,7 @@ class StaffMember(db.Model) :
         self.set_password(password)
 
     def  __repr__(self):
-        return f'<StaffMember {self.staffID} - {self.username}>'
+        return f'<StaffMember {self.staffID} - {self.username} - {self.fName} - {self.lName} - {self.email>'
         
     def toDict(self):
         return{
@@ -33,11 +34,18 @@ class StaffMember(db.Model) :
     def check_password(self, password):
         return check_password_hash(self.password, password)
 
-    def createReview(student, descripotion, type):
+    def createReview(student, description, type):
+        
 
     def upvoteReview(reviewID):
 
-    def downvoteReview(reviewID);
+    def downvoteReview(reviewID):
+
+    def generate_id(length=5):
+        characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+        random_id = ''.join(random.choice(characters) for _ in range(length))
+    
+        return random_id
 
 
     
