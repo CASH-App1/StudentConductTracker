@@ -25,6 +25,6 @@ def user_signup():
     data = request.json
     staff = createStaff(data['username'],data['password'],data['email'],data['firstName'], data['lastName'])
     if staff:
-        return jsonify(message='Account created successfully'), 201
-    return jsonify(error='Username already taken'), 400
+        return jsonify({"message" : "Account created successfully"}), 201
+    return jsonify({"error":"Username already taken"}), 400
 
