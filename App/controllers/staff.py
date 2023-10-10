@@ -36,7 +36,7 @@ def update_password(staff_id, new_password):
     staff = Staff.query.filter_by(staffID=staff_id).first()
     if staff:
         staff.password = new_password
-        db.session.add(stass)
+        db.session.add(staff)
         db.session.commit()
         return staff
     return None

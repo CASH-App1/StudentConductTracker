@@ -62,7 +62,7 @@ def update_student():
     student = update_student(data['studentID'], data['firstName'], data['lastName'])
     if student:
         return jsonify(message='Student updated successfully'), 200
-    return jsonify(error='Update unsuccessful'), 500
+    return jsonify(error='Update unsuccessful'), 400
 
 
 @user_views.route('/search', methods=['GET'])
@@ -74,3 +74,12 @@ def search_student():
         for s in student:
             return jsonify(student), 200
     return jsonify(error='No students found'), 400
+
+@user_views.route('/account/reset-password', methods=['PUT'])
+@login_required
+def reset_password():
+    data = request.json
+    staff = update_password(data['staffID'], data['new_password'])
+    if staff:
+        return jsonify(message='Password reset successful'), 200
+    return jsonify(error='Password reset failed'), 400
