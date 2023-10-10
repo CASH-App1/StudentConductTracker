@@ -24,3 +24,10 @@ class Student(db.Model):
       karmaScore = karmaScore - (downvotes/total * 1.0)
       self.karmaScore = karmaScore
 
+  def toDict(self):
+        return{
+            'Student ID': self.studentID,
+            'First Name': self.fName,
+            'Last Name': self.lName,
+            'Karma Score': self.karmaScore    
+        }
