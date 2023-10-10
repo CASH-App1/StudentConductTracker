@@ -9,6 +9,7 @@ class StaffMember(db.Model) :
     email = db.Column(db.String(100), nullable=False)
     username = db.Column(db.String(20), nullable=False)
     password = db.Column(db.String(30), nullable=False)
+    reviews = db.relatoinship('Review', backref= db.backref('staff', lazzy='joined'))
 
     def __init__(self, username, password) :
         self.username = username;
