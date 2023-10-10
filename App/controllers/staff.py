@@ -1,9 +1,9 @@
-from App.models import Staff
+from App.models import StaffMember
 from App.database import db
 
 # Controller to create a staff member
 def createStaff(username, password, email, firstName, lastName):
-    newStaff = StaffMember(username=username, password=password, email=email, firstName=firstName, lastName=lastName)
+    newStaff = StaffMember(username=username, set_password(password), email=email, firstName=firstName, lastName=lastName)
     db.session.add(newStaff)
     db.session.commit()
     return newStaff
@@ -19,18 +19,7 @@ def get_staff(staffID):
 # Controller to get a list of all staff members
 def get_all_staff():
     return StaffMember.query.all()
-
-# Controller to update a staff member's username
-def update_staff(staffID, new_username, new_email):
-    staff = get_staff(staffID)
-    if staff:
-        staff.username = new_username
-        staff.email = new_email
-        db.session.add(staff)
-        db.session.commit()
-        return staff
-    return None
-
+    
 # Controller to change staff password
 def update_password(staff_id, new_password):
     staff = StaffMember.query.get(staff_id)
@@ -40,7 +29,6 @@ def update_password(staff_id, new_password):
         db.session.commit()
         return staff
     return None
-
 
 def get_all_staff_json():
     staff = StaffMember.query.all()

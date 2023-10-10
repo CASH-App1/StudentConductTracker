@@ -42,6 +42,7 @@ class StaffMember(db.Model) :
         student.karmaScore = 5
         countUp = 0
         countDown = 0
+        
         for review in student.reviews:
             if (review.upvote == 0):
                 countDown += 1
