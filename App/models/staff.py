@@ -36,9 +36,18 @@ class StaffMember(db.Model) :
 
     def check_password(self, password):
         return check_password_hash(self.password, password)
-        
-   def createReview(self, reviewID, student, staffID, upvote, downvote):
-        review =Review.__init__(self, reviewID, studentID, staffID, description, upvote, downvote):
+
+   def createReview(self, studentID, review, reviewType): 
+        student = Student.query.get(studentID)
+        if student:
+            review = Review(studentID=studentID, staffID=self.staffID, description=review, reviewType=reviewType)
+            if review:
+                student.reviews.append(review)
+                return review
+            return None
+        return None
+
+            
    #      student.karmaScore = 5
    #      countUp = 0
    #      countDown = 0

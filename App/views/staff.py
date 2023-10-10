@@ -15,7 +15,7 @@ def log_review():
     review = log_review(data['studentID'], data['review'], data['type'])
     if review:
         return jsonify(message = 'Review logged successfully'), 201
-    return jsonify(error='Invalid type'), 400
+    return jsonify(error='Review failed to post'), 400
 
 
 @user_views.route('/view/student', methods=['GET'])

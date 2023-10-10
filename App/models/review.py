@@ -8,12 +8,13 @@ class Review(db.Model):
   date: db.Column(db.DateTime, default = datetime.utcnow)
   upvote: db.Column(db.Integer, nullable=False)
   downvote: db.Colum(db.Integer, nullable=False)
-  type: db.Column(db.String(8), nullable=False)
+  reviewType: db.Column(db.String(8), nullable=False)
 
-  def __init__(self, studentID, staffID, description):
+  def __init__(self, studentID, staffID, description, reviewType):
     self.studentID = studentID
     self.staffID = staffID
     self.description = description
+    self.reviewType = reviewType
 
 
   def toDict(self):
@@ -25,6 +26,7 @@ class Review(db.Model):
       'Date' : self.created.strftime("%Y/%m/%d, %H:%M: %S")
       'Upvote': self.upvote
       'Downvote'= self.downvote
+      'Review Type' = self.type
     }
 
   def upvoteReview(self):

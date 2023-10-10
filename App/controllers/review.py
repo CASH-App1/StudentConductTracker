@@ -2,10 +2,17 @@
 from App.model import *
 
 # Controller of staff to log review for student
-def log_review(studentID, review, type):
-    newReview = Review(studentID=studentID, review=review, type=type)
-    db.session.add(newReview)
-    db.session.commit()
+def log_review(staffID, studentID, review, reviewType):
+    #newReview = Review(studentID=studentID, review=review, type=type)
+    staff = StaffMember.query.get(staffID)
+    if staff:
+        newReview = staff.createReview(studentID, review, reviewType)
+        if newReview:
+            db.session.add(newReview)
+            db.session.commit()
+            return newReview
+        return None
+    return None
 
 # Retrieving reviews done by staff
 def get_all_reviews():
