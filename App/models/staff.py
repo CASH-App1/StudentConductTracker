@@ -36,24 +36,23 @@ class StaffMember(db.Model) :
 
     def check_password(self, password):
         return check_password_hash(self.password, password)
-
-    def createReview(self, reviewID,student, staffID, upvote, downvote):
-        review =Review.__init__(self, reviewID, student.studentID, staffID, description, upvote, downvote):
-        student.karmaScore = 5
-        countUp = 0
-        countDown = 0
+   def createReview(self, reviewID, student, staffID, upvote, downvote):
+        review =Review.__init__(self, reviewID, studentID, staffID, description, upvote, downvote):
+   #      student.karmaScore = 5
+   #      countUp = 0
+   #      countDown = 0
         
-        for review in student.reviews:
-            if (review.upvote == 0):
-                countDown += 1
-            else:
-                countUp += 1
+   #      for review in student.reviews:
+   #          if (review.upvote == 0):
+   #              countDown += 1
+   #          else:
+   #              countUp += 1
 
-    student.karmaScore = student.karmaScore + countDown - countUp
-    if (student.karmaScore<0) :
-        student.karmaScore = 0
-   if (student.karmaScore>10):
-       student.karmaScore = 10
+   #  student.karmaScore = student.karmaScore + countDown - countUp
+   #  if (student.karmaScore<0) :
+   #      student.karmaScore = 0
+   # if (student.karmaScore>10):
+   #     student.karmaScore = 10
 
     def upvoteReview(reviewID):
         for review in reviews:
