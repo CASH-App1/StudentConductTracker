@@ -1,4 +1,3 @@
-
 from App.models import *
 from App.database import db 
 
@@ -31,7 +30,7 @@ def upvote_review(reviewID):
     return False
 
 #Downvote review
-def downVote_review(reviewID):
+def downvote_review(reviewID):
     review = Review.query.get(reviewID)
     
     if review:
