@@ -1,17 +1,17 @@
 
 from App.model import *
 
-#Controller of staff to log review for student
+# Controller of staff to log review for student
 def log_review(studentID, review, type):
     newReview = Review(studentID=studentID, review=review, type=type)
     db.session.add(newReview)
     db.session.commit()
 
-#Retrieving reviews done by staff
+# Retrieving reviews done by staff
 def get_all_reviews():
     return Review.query.all()
 
-#Upvote review
+# Upvote review
 def upvote_review(reviewID):
     review = Review.query.get(reviewID)
     if review:
@@ -21,7 +21,7 @@ def upvote_review(reviewID):
         return True
     return False
 
-#Downvote review
+# Downvote review
 def downVote_review(reviewID):
     review = Review.query.get(reviewID)
     if review:
@@ -31,6 +31,6 @@ def downVote_review(reviewID):
         return True
     return False
 
-#Controller to get a review by reviewID
+# Controller to get a review by reviewID
 def get_review(reviewID):
     return Review.query.get(reviewID)
