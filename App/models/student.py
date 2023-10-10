@@ -19,7 +19,8 @@ class Student(db.Model):
       downvotes = downvotes + r.downvote
       total = upvotes + downvotes
 
-      karmaScore = karmaScore + (upvotes/total * 1.0)
+      #calculating the KarmaScore by adding the upvotes and subtracting downvotes
+      karmaScore = karmaScore + (upvotes/total * 1.0) 
       karmaScore = karmaScore - (downvotes/total * 1.0)
       self.karmaScore = karmaScore
 
