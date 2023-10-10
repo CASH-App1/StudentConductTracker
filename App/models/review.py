@@ -26,3 +26,18 @@ class Review(db.Model):
       'Upvote': self.upvote
       'Downvote'= self.downvote
     }
+
+  def upvoteReview(self):
+        #for review in reviews:
+         #   if reviewID == review.reviewID:
+          #      if review.student.karmaScore != 10
+           #         review.student.karmaScore += 1
+    self.upvote += 1
+
+  def downvoteReview(self):
+        #for review in reviews:
+         #   if reviewID == review.reviewID:
+          #      if review.student.karmaScore != 0
+           #         review.student.karmaScore -= 1
+    self.downvote += 1
+
