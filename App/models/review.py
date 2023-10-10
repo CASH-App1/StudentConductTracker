@@ -7,7 +7,8 @@ class Review(db.Model):
   description: db.Column(db.String(1000), nullable=False)
   date: db.Column(db.DateTime, default = datetime.utcnow)
   upvote: db.Column(db.Integer, nullable=False)
-  downvote: db.Coulum(db.Integer, nullable=False)
+  downvote: db.Colum(db.Integer, nullable=False)
+  type: db.Column(db.String(8), nullable=False)
 
   def __init__(self, studentID, staffID, description):
     self.studentID = studentID
