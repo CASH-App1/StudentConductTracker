@@ -14,7 +14,7 @@ def log_review():
     data = request.json
     review = log_review(data['studentID'], data['review'], data['type'])
     if review:
-        return jsonify(message = 'Review logged successfully'), 200
+        return jsonify(message = 'Review logged successfully'), 201
     return jsonify(error='Invalid type'), 400
 
 
@@ -75,5 +75,5 @@ def reset_password():
     data = request.json
     staff = update_password(data['staffID'], data['new_password'])
     if staff:
-        return jsonify(message='Password reset successful'), 200
+        return jsonify(message='Password reset successful'), 201
     return jsonify(error='Password reset failed'), 400

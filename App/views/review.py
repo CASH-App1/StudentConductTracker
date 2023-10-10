@@ -17,5 +17,5 @@ def karma_rank():
 
     if upvote or downvote:
         return jsonify(message = 'Vote added successfully'), 200
-    return jsonify(error='Vote unsuccessful'), 500
+    return jsonify(error='Vote unsuccessful'), 400
 
