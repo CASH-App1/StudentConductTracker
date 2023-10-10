@@ -1,5 +1,5 @@
 from App.models import StaffMember
-from App.database import db
+from App.database import db 
 
 # Controller to create a staff member
 def create_staff(username, password, email, firstName, lastName):
