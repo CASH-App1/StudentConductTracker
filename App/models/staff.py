@@ -20,7 +20,7 @@ class StaffMember(db.Model) :
         self.lastName = lName
 
     def  __repr__(self):
-        return f'<StaffMember {self.staffID} - {self.username} - {self.fName} - {self.lName} - {self.email>'
+        return f'<StaffMember {self.staffID} - {self.username} - {self.fName} - {self.lName} - {self.email}>'
 
     def toDict(self):
         return{
@@ -37,7 +37,7 @@ class StaffMember(db.Model) :
     def check_password(self, password):
         return check_password_hash(self.password, password)
 
-   def createReview(self, studentID, review, reviewType): 
+    def createReview(self, studentID, review, reviewType): 
         student = Student.query.get(studentID)
         if student:
             review = Review(studentID=studentID, staffID=self.staffID, description=review, reviewType=reviewType)
@@ -46,24 +46,6 @@ class StaffMember(db.Model) :
                 return review
             return None
         return None
-
-            
-   #      student.karmaScore = 5
-   #      countUp = 0
-   #      countDown = 0
-        
-   #      for review in student.reviews:
-   #          if (review.upvote == 0):
-   #              countDown += 1
-   #          else:
-   #              countUp += 1
-
-   #  student.karmaScore = student.karmaScore + countDown - countUp
-   #  if (student.karmaScore<0) :
-   #      student.karmaScore = 0
-   # if (student.karmaScore>10):
-   #     student.karmaScore = 10
-
 
     def generate_id(length=5):
         characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
