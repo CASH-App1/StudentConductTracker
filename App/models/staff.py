@@ -47,24 +47,6 @@ class StaffMember(db.Model) :
             return None
         return None
 
-            
-   #      student.karmaScore = 5
-   #      countUp = 0
-   #      countDown = 0
-        
-   #      for review in student.reviews:
-   #          if (review.upvote == 0):
-   #              countDown += 1
-   #          else:
-   #              countUp += 1
-
-   #  student.karmaScore = student.karmaScore + countDown - countUp
-   #  if (student.karmaScore<0) :
-   #      student.karmaScore = 0
-   # if (student.karmaScore>10):
-   #     student.karmaScore = 10
-
-
     def generate_id(length=5):
         characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
         random_id = ''.join(random.choice(characters) for _ in range(length))
