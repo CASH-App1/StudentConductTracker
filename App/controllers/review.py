@@ -3,7 +3,6 @@ from App.database import db
 
 # Controller of staff to log review for student
 def log_review(staffID, studentID, review, reviewType):
-    #newReview = Review(studentID=studentID, review=review, type=type)
     staff = StaffMember.query.get(staffID)
     if staff:
         newReview = staff.createReview(studentID, review, reviewType)
