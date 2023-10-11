@@ -1,7 +1,7 @@
 from App.database import db
 
 class Student(db.Model):
-  studentID: db.Column(db.String(5), primary_key= True)
+  studentID: db.Column(db.Integer, primary_key= True)
   fname: db.Column(db.String(30), nullable=False)
   lname: db.Column(db.String(40), nullable=False)
   karmaScore: db.Column(db.Integer, nullable=False, default = "0")

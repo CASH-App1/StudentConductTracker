@@ -2,8 +2,8 @@ from App.database import db
 from datetime import datetime
 
 class Review(db.Model):
-  reviewID: db.Column(db.String(5), primary_Key=True)
-  studentID: db.Column(db.String(5),  db.ForeignKey('student.studentID'))
+  reviewID: db.Column(db.Integer, primary_Key=True)
+  studentID: db.Column(db.Integer,  db.ForeignKey('student.studentID'))
   staffID: db.Column(db.String(5), nullable=False)
   description: db.Column(db.String(1000), nullable=False)
   date: db.Column(db.DateTime, default = datetime.utcnow)

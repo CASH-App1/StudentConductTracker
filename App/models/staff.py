@@ -4,7 +4,7 @@ from App.database import db
 import random
 
 class StaffMember(db.Model) :
-    staffID = db.Column(db.String(5), primary_key=True)
+    staffID = db.Column(db.Integer, primary_key=True)
     fName = db.Column(db.String(30), nullable=False)
     lName = db.Column(db.String(40), nullable=False)
     email = db.Column(db.String(100), nullable=False)
