@@ -1,11 +1,13 @@
 from App.database import db
+from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy.orm import relationship
 
 class Student(db.Model):
-  studentID: db.Column(db.Integer, primary_key= True)
-  fname: db.Column(db.String(30), nullable=False)
-  lname: db.Column(db.String(40), nullable=False)
-  karmaScore: db.Column(db.Integer, nullable=False, default = "0")
-  reviews: db.relationship('Review',backref=db.backref('student', lazy='joined'))
+  studentID= db.Column(db.Integer, primary_key= True)
+  fname= db.Column(db.String(30), nullable=False)
+  lname= db.Column(db.String(40), nullable=False)
+  karmaScore= db.Column(db.Integer, nullable=False, default = "0")
+  reviews= db.relationship('Review',backref=db.backref('student', lazy='joined'))
 
   def __init__(self, studentID, fname, lname):
     self.studentID = studentID
