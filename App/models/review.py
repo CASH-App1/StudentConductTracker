@@ -2,7 +2,7 @@ from App.database import db
 from datetime import datetime
 
 class Review(db.Model):
-  reviewID: db.Column(db.Integer, primary_Key=True)
+  reviewID: db.Column(db.Integer, primary_key=True)
   studentID: db.Column(db.Integer,  db.ForeignKey('student.studentID'))
   staffID: db.Column(db.String(5), nullable=False)
   description: db.Column(db.String(1000), nullable=False)
@@ -31,16 +31,8 @@ class Review(db.Model):
     }
 
   def upvoteReview(self):
-        #for review in reviews:
-         #   if reviewID == review.reviewID:
-          #      if review.student.karmaScore != 10
-           #         review.student.karmaScore += 1
     self.upvote += 1
 
   def downvoteReview(self):
-        #for review in reviews:
-         #   if reviewID == review.reviewID:
-          #      if review.student.karmaScore != 0
-           #         review.student.karmaScore -= 1
     self.downvote += 1
 
