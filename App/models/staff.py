@@ -20,7 +20,7 @@ class StaffMember(db.Model) :
         self.lastName = lName
 
     def  __repr__(self):
-        return f'<StaffMember {self.staffID} - {self.username} - {self.fName} - {self.lName} - {self.email}
+        return f'<StaffMember {self.staffID} - {self.username} - {self.fName} - {self.lName} - {self.email}>'
 
     def toDict(self):
         return{
@@ -37,7 +37,7 @@ class StaffMember(db.Model) :
     def check_password(self, password):
         return check_password_hash(self.password, password)
 
-   def createReview(self, studentID, review, reviewType): 
+    def createReview(self, studentID, review, reviewType): 
         student = Student.query.get(studentID)
         if student:
             review = Review(studentID=studentID, staffID=self.staffID, description=review, reviewType=reviewType)
