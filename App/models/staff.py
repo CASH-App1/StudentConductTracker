@@ -20,7 +20,7 @@ class StaffMember(db.Model) :
         self.lastName = lName
 
     def  __repr__(self):
-        return f'<StaffMember {self.staffID} - {self.username} - {self.fName} - {self.lName} - {self.email>'
+        return f'<StaffMember {self.staffID} - {self.username} - {self.fName} - {self.lName} - {self.email}
 
     def toDict(self):
         return{
