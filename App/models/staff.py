@@ -1,4 +1,4 @@
-ffrom werkzeug.security import check_password_hash, generate_password_hash
+from werkzeug.security import check_password_hash, generate_password_hash
 from flask_login import UserMixin, login_user
 from App.database import db
 import random
