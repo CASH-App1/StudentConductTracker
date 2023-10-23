@@ -3,8 +3,8 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 from App.main import create_app
 from App.database import db, create_db
-from App.models import User
-from App.controllers import (
+from App.models import *
+from App.controllers import *
     create_user,
     get_all_users_json,
     login,
@@ -19,28 +19,47 @@ LOGGER = logging.getLogger(__name__)
 '''
    Unit Tests
 '''
-class UserUnitTests(unittest.TestCase):
 
-    def test_new_user(self):
-        user = User("bob", "bobpass")
-        assert user.username == "bob"
+class ReviewUnitTests(unittest.TestCase):
+
+    def test_new_review(self):
+        #newStaff = Staff("bob", "bobpass", "bob@mail.com", "Bobby", "Smith")
+        #newReview = newStaff.createReview("816011111", "1", "This student continues to show great potential", "positive")
+        newReview = Review("816011111", "1", "This student continues to show great potential", "positive")
+        assert (newReview.studentID, newReview.staffID, newReview.description, newReview.reviewType) == ("816011111", "1", "This student continues to show great potential", "positive")
+
+    def test_review_toDict(self):
+        newReview = Review("816011111", "1", "This student continues to show great potential", "positive")
+        review_json = newReview.toDict()
+        self.assertDictEqual(review_json, {"Review ID": "01", "Student ID": "816011111", "Staff ID": "1", "Description": "This student continues to show great potential", "Date": datetime.utcnow, "Upvote": "0", "Downvote": "0", "Review Type": "positive"})
+
+    def test_upvote(self):
+        newStudent = Student("816011111", "Dale", "Barbara")
+        newStaff = Staff("RobertJackson", "robby123", "robertjackson@mail.com", "Robert", "Jackson")
+        newReview = newStaff.createReview("816011111", "This student continues to show great potential", "positive")
+        newReview.upvote()
+        assert newReview.upvote == 1
+
+    def test_upvote(self):
+        newStudent = Student("816011111", "Dale", "Barbara")
+        newStaff = Staff("RobertJackson", "robby123", "robertjackson@mail.com", "Robert", "Jackson")
+        newReview = newStaff.createReview("816011111", "This student continues to show great potential", "positive")
+        newReview.downvote()
+        assert newReview.downvote == 1
+
+
+class StaffUnitTests(unittest.TestCase):
+
+    def test_new_staff(self):
+        newStaff = Staff("bob", "bobpass", "bob@mail.com", "Bobby", "Smith")
+        assert (newStaff.username, newStaff.email, newStaff.firstName, newStaff.lastName) == ("bob", "bob@mail.com", "Bobby", "Smith")
 
     # pure function no side effects or integrations called
-    def test_get_json(self):
-        user = User("bob", "bobpass")
-        user_json = user.get_json()
-        self.assertDictEqual(user_json, {"id":None, "username":"bob"})
+    def test_staff_toDict(self):
+        newStaff = Staff("bob", "bobpass", "bob@mail.com", "Bobby", "Smith")
+        staff_json = newStaff.toDict()
+        self.assertDictEqual(staff_json, {"Staff ID": "1", "First Name": "Bobby", "Last Name": "Smith", "Email": "bob@mail.com", "Username": "bob"})
     
-    def test_hashed_password(self):
-        password = "mypass"
-        hashed = generate_password_hash(password, method='sha256')
-        user = User("bob", password)
-        assert user.password != password
-
-    def test_check_password(self):
-        password = "mypass"
-        user = User("bob", password)
-        assert user.check_password(password)
 
 '''
     Integration Tests
