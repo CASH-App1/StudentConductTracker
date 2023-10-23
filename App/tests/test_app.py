@@ -56,22 +56,87 @@ def empty_db():
     db.drop_all()
 
 
-def test_authenticate():
-    user = create_user("bob", "bobpass")
-    assert login("bob", "bobpass") != None
+    def test_authenticate(self):
+        created_staff = create_staff("bob", "bobpass", "bob@mail.com", "Bobby", "Smith")
+        access_token = jwt_authenticate("bob", "bobpass")
+        assert access_token != None
 
 class UsersIntegrationTests(unittest.TestCase):
 
-    def test_create_user(self):
-        user = create_user("rick", "bobpass")
-        assert user.username == "rick"
+    def test_create_staff(self):
+        created_staff = create_staff("rick", "rickypass123", "rick1@mail.com", "Ricky", "Martin")
+        retrieved_staff = get_staff(created_staff.staffID)
+        assert retrieved_staff.username == "rick"
+        assert retrieved_staff.email == "rick1@mail.com"
+        assert retrieved_staff.firstName == "Ricky"
+        assert retrieved_staff.lastName == "Martin"
 
-    def test_get_all_users_json(self):
-        users_json = get_all_users_json()
-        self.assertListEqual([{"id":1, "username":"bob"}, {"id":2, "username":"rick"}], users_json)
+    def test_get_all_staff_json(self):
+        staff1 = create_staff("sid", "sidpass", "sid@mail.com", "Sidique", "Brenson")
+        staff2 = create_staff("ross", "rosspass", "ross@mail.com", "Ross", "Sanchez")
+        
+        staff_json = get_all_staff_json()
 
-    # Tests data changes in the database
-    def test_update_user(self):
-        update_user(1, "ronnie")
-        user = get_user(1)
-        assert user.username == "ronnie"
+        expected_json = [
+            {
+                "Staff ID": staff1.staffID,
+                "First Name": "Bobby",
+                "Last Name": "Smith",
+                "Email": "bob@mail.com",
+                "Username": "bob"
+            },
+            {
+                "Staff ID": staff2.staffID,
+                "First Name": "Rick",
+                "Last Name": "Sanchez",
+                "Email": "rick@mail.com",
+                "Username": "rick"
+            }
+        ]
+        assert staff_json == expected_json
+
+    def test_password_reset(self):
+        staff = create_staff("bob", "bobpass", "bob@mail.com", "Bobby", "Smith")
+        new_password = "bob1234pass"
+        update_password(1, new_password)
+        updated_staff = get_staff(1)
+        assert updated_staff.password == new_password
+
+    def test_log_review(self):
+        staff = create_staff("dev", "evolve123", "dev1@mail.com", "Devon", "Jones")
+        student = add_student("816011112", "Jess", "Smith")
+        review = "This student continues to show great potential"
+        review_type = "positive"
+        new_review = log_review(staff.staffID, student.studentID, review, review_type)
+        logged_review = get_review(new_review.reviewID)
+
+        assert logged_review.staffID == staff.staffID
+        assert logged_review.studentID == student.studentID
+        assert logged_review.description == review
+        assert logged_review.reviewType == review_type
+
+    def test_view_student(self):
+        staff = create_staff("bob", "bobpass", "bob@mail.com", "Bobby", "Smith")
+        new_student = add_student("816012122", "Alice", "Smith")
+        student = get_student("816012122")
+
+        assert student.studentID == "816012122"
+        assert student.firstName == "Alice"
+        assert student.lastName == "Smith"
+    
+    def test_view_student_review(self):
+        staff = create_staff("Dean", "deanpass", "dean@example.com", "Dean", "Doe")
+        new_review = log_review(staff.staffID, "816011112", "This student is doing well", "positive")
+        review = get_review(new_review.reviewID)
+        
+        assert review.staffID == staff.staffID
+        assert review.studentID == "816011112"
+        assert review.review == "This student is doing well"
+        assert review.reviewType == "positive"
+        
+    def test_update_student(self):
+        update_student("816011112", "Jessica", "Colten")
+        updated_student = get_user(816011112)
+        assert updated_student.firstName == "Jessica"
+        assert updated_student.lastName == "Colten"
+
