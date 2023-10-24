@@ -193,15 +193,15 @@ class UsersIntegrationTests(unittest.TestCase):
         review3 = log_review(staff.staffID, student.studentID, "Student has failed the course exam and needs 100% in final to not repeat course", "negative")
         retrieved_student = get_student(student.studentID)
 
-        self.assertEqual(retrieved_student.review[0], review1)
-        self.assertEqaul(retrieved_student.review[1], review2)
-        self.assertEqual(retrieved_student.review[2], review3)
+        self.assertEqual(retrieved_student.reviews[0], review1)
+        self.assertEqaul(retrieved_student.reviews[1], review2)
+        self.assertEqual(retrieved_student.reviews[2], review3)
         
     def test_add_student():
         new_student = add_student("816056789", "Lala", "Singhrambatan")
         student_added = get_student(new_student.studentID)
 
-        self.assertEqual( student_added.firstName, "Lala")
-        self.assertEqual( student_added.lastName, "Singhrambatan")
+        self.assertEqual( student_added.fName, "Lala")
+        self.assertEqual( student_added.lName, "Singhrambatan")
         
 
