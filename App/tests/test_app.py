@@ -148,8 +148,29 @@ class UsersIntegrationTests(unittest.TestCase):
         self.assertEqual(retrieved_student.firstName, "Jessica")
         self.assertEqual(retrieved_student.lastName, "Colten")
 
-    def test_upvote()
-    def test_downvote()
+    def test_upvote(self):
+        staff = create_staff("harry", "wolfawoo*&*","harry.persad@yahoo.com", "Harry", "Persad")
+        student= add_student("816030888", "Pablo", "Esco")
+        description = "This student is an excellent student and shows leadership skills"
+        review_type = "positive"
+        new_review = log_review(staff.staffID, student.studentID, description, review_type)
+        upvoted_review = upvote_review(new_review.reviewID);
+        logged_review = get_review(new_review.reviewID)
+
+        self.assertEqual(upvoted_review, "True")
+        self.assertEqual(logged_review.upvote, 1)
+        
+    def test_downvote(self):
+        staff = create_staff("Paul", "paullita","paulDeDan@yahoo.com", "Paul", "Smith")
+        student= add_student("816030988", "Susie", "Green")
+        description = "TThis student needs to show more interest in his studies or else he will not pass his courses"
+        review_type = "negative"
+        new_review = log_review(staff.staffID, student.studentID, description, review_type)
+        downvoted_review = downvote_review(new_review.reviewID);
+        logged_review = get_review(new_review.reviewID)
+
+        self.assertEqual(downvoted_review, "True")
+        self.assertEqual(logged_review.downvote, 1)
     def test_search()
     def test_view_student_reviews()
     def test_add_student()
