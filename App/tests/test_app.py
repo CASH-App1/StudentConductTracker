@@ -64,12 +64,13 @@ def empty_db():
 class UsersIntegrationTests(unittest.TestCase):
 
     def test_create_staff(self):
-        created_staff = create_staff("rick", "rickypass123", "rick1@mail.com", "Ricky", "Martin")
-        retrieved_staff = get_staff(created_staff.staffID)
-        assert retrieved_staff.username == "rick"
-        assert retrieved_staff.email == "rick1@mail.com"
-        assert retrieved_staff.firstName == "Ricky"
-        assert retrieved_staff.lastName == "Martin"
+        staff = create_staff("rick", "rickypass123", "rick1@mail.com", "Ricky", "Martin")
+        retrieved_staff = get_staff(staff.staffID)
+        self.assertEqual(retrieved_staff.username, "rick")
+        self.assertEqual(retrieved_staff.email, "rick1@mail.com")
+        self.assertEqual(retrieved_staff.firstName, "Ricky")
+        self.assertEqual(retrieved_staff.lastName, "Martin")
+
 
     def test_get_all_staff_json(self):
         staff1 = create_staff("sid", "sidpass", "sid@mail.com", "Sidique", "Brenson")
@@ -98,45 +99,53 @@ class UsersIntegrationTests(unittest.TestCase):
     def test_password_reset(self):
         staff = create_staff("bob", "bobpass", "bob@mail.com", "Bobby", "Smith")
         new_password = "bob1234pass"
-        update_password(1, new_password)
-        updated_staff = get_staff(1)
+        update_password(staff.staffID, new_password)
+        updated_staff = get_staff(staff.staffID)
         assert updated_staff.password == new_password
 
     def test_log_review(self):
         staff = create_staff("dev", "evolve123", "dev1@mail.com", "Devon", "Jones")
         student = add_student("816011112", "Jess", "Smith")
-        review = "This student continues to show great potential"
+        description = "This student continues to show great potential"
         review_type = "positive"
-        new_review = log_review(staff.staffID, student.studentID, review, review_type)
+        new_review = log_review(staff.staffID, student.studentID, description, review_type)
         logged_review = get_review(new_review.reviewID)
 
-        assert logged_review.staffID == staff.staffID
-        assert logged_review.studentID == student.studentID
-        assert logged_review.description == review
-        assert logged_review.reviewType == review_type
+        self.assertEqual(logged_review.staffID, staff.staffID)
+        self.assertEqual(logged_review.studentID, student.studentID)
+        self.assertEqual(logged_review.description, description)
+        self.assertEqual(logged_review.reviewType, review_type)
 
     def test_view_student(self):
         staff = create_staff("bob", "bobpass", "bob@mail.com", "Bobby", "Smith")
         new_student = add_student("816012122", "Alice", "Smith")
-        student = get_student("816012122")
+        student = get_student(new_student.studentID)
 
-        assert student.studentID == "816012122"
-        assert student.firstName == "Alice"
-        assert student.lastName == "Smith"
-    
+        self.assertEqual(student.studentID, "816012122")
+        self.assertEqual(student.firstName, "Alice")
+        self.assertEqual(student.lastName, "Smith")
+
     def test_view_student_review(self):
         staff = create_staff("Dean", "deanpass", "dean@example.com", "Dean", "Doe")
-        new_review = log_review(staff.staffID, "816011112", "This student is doing well", "positive")
+        student = add_student("816011113", "Sean", "Mendez")
+        new_review = log_review(staff.staffID, student.studentID, "This student is doing well", "positive")
         review = get_review(new_review.reviewID)
-        
-        assert review.staffID == staff.staffID
-        assert review.studentID == "816011112"
-        assert review.review == "This student is doing well"
-        assert review.reviewType == "positive"
-        
+        retrieved_student = get_student(student.studentID) 
+
+        self.assertEqual(review.staffID, staff.staffID)
+        self.assertEqual(review.studentID, student.studentID)
+        self.assertEqual(review.review, "This student is doing well")
+        self.assertEqual(review.reviewType, "positive")
+
+        self.assertEqual(retrieved_student.studentID, "816011113")
+        self.assertEqual(retrieved_student.firstName, "Sean")
+        self.assertEqual(retrieved_student.lastName, "Mendez")
+  
     def test_update_student(self):
-        update_student("816011112", "Jessica", "Colten")
-        updated_student = get_user(816011112)
-        assert updated_student.firstName == "Jessica"
-        assert updated_student.lastName == "Colten"
+        updated_student = update_student("816011112", "Jessica", "Colten")
+        retrieved_student = get_student(updated_student.studentID)
+
+        self.assertEqual(retrieved_student.firstName, "Jessica")
+        self.assertEqual(retrieved_student.lastName, "Colten")
+
 
