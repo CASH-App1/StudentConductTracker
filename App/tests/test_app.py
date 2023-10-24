@@ -73,25 +73,25 @@ class UsersIntegrationTests(unittest.TestCase):
 
 
     def test_get_all_staff_json(self):
-        staff1 = create_staff("sid", "sidpass", "sid@mail.com", "Sidique", "Brenson")
-        staff2 = create_staff("ross", "rosspass", "ross@mail.com", "Ross", "Sanchez")
+        staff1 = create_staff("oli", "olipass", "oli.brenson@mail.com", "Oliver", "Brenson")
+        staff2 = create_staff("ross", "rosspass", "ross12@mail.com", "Ross", "Sanchez")
         
         staff_json = get_all_staff_json()
 
         expected_json = [
             {
                 "Staff ID": staff1.staffID,
-                "First Name": "Bobby",
-                "Last Name": "Smith",
-                "Email": "bob@mail.com",
-                "Username": "bob"
+                "First Name": "Oliver",
+                "Last Name": "Brenson",
+                "Email": "oli.brenson@mail.com",
+                "Username": "oli"
             },
             {
                 "Staff ID": staff2.staffID,
-                "First Name": "Rick",
+                "First Name": "Ross",
                 "Last Name": "Sanchez",
-                "Email": "rick@mail.com",
-                "Username": "rick"
+                "Email": "ross12@mail.com",
+                "Username": "ross"
             }
         ]
         assert staff_json == expected_json
@@ -117,16 +117,16 @@ class UsersIntegrationTests(unittest.TestCase):
         self.assertEqual(logged_review.reviewType, review_type)
 
     def test_view_student(self):
-        staff = create_staff("bob", "bobpass", "bob@mail.com", "Bobby", "Smith")
-        new_student = add_student("816012122", "Alice", "Smith")
+        staff = create_staff("Murphy", "sun$et@5", "e.murphy@mail.com", "Eric", "Murphy")
+        new_student = add_student("816012122", "Alice", "Denver")
         student = get_student(new_student.studentID)
 
         self.assertEqual(student.studentID, "816012122")
         self.assertEqual(student.firstName, "Alice")
-        self.assertEqual(student.lastName, "Smith")
+        self.assertEqual(student.lastName, "Denver")
 
     def test_view_student_review(self):
-        staff = create_staff("Dean", "deanpass", "dean@example.com", "Dean", "Doe")
+        staff = create_staff("Dean", "deanPizza", "dean@mail.com", "Dean", "Doe")
         student = add_student("816011113", "Sean", "Mendez")
         new_review = log_review(staff.staffID, student.studentID, "This student is doing well", "positive")
         review = get_review(new_review.reviewID)
@@ -163,7 +163,7 @@ class UsersIntegrationTests(unittest.TestCase):
     def test_downvote(self):
         staff = create_staff("Paul", "paullita","paulDeDan@yahoo.com", "Paul", "Smith")
         student= add_student("816030988", "Susie", "Green")
-        description = "TThis student needs to show more interest in his studies or else he will not pass his courses"
+        description = "This student needs to show more interest in his studies or else he will not pass his courses"
         review_type = "negative"
         new_review = log_review(staff.staffID, student.studentID, description, review_type)
         downvoted_review = downvote_review(new_review.reviewID);
@@ -180,7 +180,7 @@ class UsersIntegrationTests(unittest.TestCase):
         student_json = get_students_by_name("Chris", "Brown")
 
         expected_json = [
-            {"studnetID": student1.studentId, "firstName": student1.fname ,"lastName":  student1.lname }
+            {"studentID": student1.studentID, "firstName": student1.firstName ,"lastName":  student1.lastName }
         ]
 
         assert student_json == expected_json
@@ -188,9 +188,9 @@ class UsersIntegrationTests(unittest.TestCase):
     def test_view_student_reviews():
         staff= create_staff("Everly", "pumkinpi3", "everly@gamil.com", "Everly", "Reed")
         student = add_student("816099789", "Troy" , "Bolten")
-        review1 = log_review(staff.staffID, student.studnetID,"Excellent work", "positive")
+        review1 = log_review(staff.staffID, student.studentID,"Excellent work", "positive")
         review2 = log_review(staff.staffID, student.studentID, "Very hardworker which is seen in results","postitive")
-        review3 = log_review(staff.staffID, student.studentID, "Student has failed the course exam and needs 100% in final to not repeat course", "negative")
+        review3 = log_review(staff.staffID, student.studentID, "Student has failed the course exam and needs 100 in final to not repeat course", "negative")
         retrieved_student = get_student(student.studentID)
 
         self.assertEqual(retrieved_student.reviews[0], review1)
@@ -201,7 +201,7 @@ class UsersIntegrationTests(unittest.TestCase):
         new_student = add_student("816056789", "Lala", "Singhrambatan")
         student_added = get_student(new_student.studentID)
 
-        self.assertEqual( student_added.fName, "Lala")
-        self.assertEqual( student_added.lName, "Singhrambatan")
+        self.assertEqual(student_added.firstName, "Lala")
+        self.assertEqual(student_added.lastName, "Singhrambatan")
         
 
