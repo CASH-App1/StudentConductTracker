@@ -171,7 +171,20 @@ class UsersIntegrationTests(unittest.TestCase):
 
         self.assertEqual(downvoted_review, "True")
         self.assertEqual(logged_review.downvote, 1)
-    def test_search()
+        
+    def test_search():
+        student1 = add_student("816031948", "Chris", "Brown")
+        student2 = add_student("816029858", "Nathalia","Andrews")
+        
+
+        student_json = get_students_by_name("Chris", "Brown")
+
+        expected_json = [
+            {"studnetID": student1.studentId  "firstName": student1.fname    "lastName":  student1.lname }
+        ]
+
+        assert student_json == expected_json
+            
     def test_view_student_reviews()
     def test_add_student()
 
