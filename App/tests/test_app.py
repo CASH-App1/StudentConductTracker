@@ -148,4 +148,10 @@ class UsersIntegrationTests(unittest.TestCase):
         self.assertEqual(retrieved_student.firstName, "Jessica")
         self.assertEqual(retrieved_student.lastName, "Colten")
 
+    def test_upvote()
+    def test_downvote()
+    def test_search()
+    def test_view_student_reviews()
+    def test_add_student()
+
 
