@@ -2,6 +2,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from flask_login import UserMixin, login_user
 from App.database import db
 import random
+from App.models import *
 
 class StaffMember(db.Model) :
     staffID = db.Column(db.Integer, primary_key=True)

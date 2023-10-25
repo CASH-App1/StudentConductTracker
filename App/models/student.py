@@ -6,13 +6,14 @@ class Student(db.Model):
   studentID= db.Column(db.Integer, primary_key= True)
   fname= db.Column(db.String(30), nullable=False)
   lname= db.Column(db.String(40), nullable=False)
-  karmaScore= db.Column(db.Integer, nullable=False, default = "0")
+  karmaScore= db.Column(db.Integer, nullable=False)
   reviews= db.relationship('Review',backref=db.backref('student', lazy='joined'))
 
   def __init__(self, studentID, fname, lname):
     self.studentID = studentID
     self.fname = fname
     self.lname = lname
+    self.karmaScore = 0
  
   def updateKarmaScore( self):
     for r in self.reviews:
@@ -28,7 +29,7 @@ class Student(db.Model):
   def toDict(self):
         return{
             'Student ID': self.studentID,
-            'First Name': self.fName,
-            'Last Name': self.lName,
+            'First Name': self.fname,
+            'Last Name': self.lname,
             'Karma Score': self.karmaScore    
         }
