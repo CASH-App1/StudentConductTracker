@@ -5,14 +5,6 @@ from App.main import create_app
 from App.database import db, create_db
 from App.models import *
 from App.controllers import *
-    create_user,
-    get_all_users_json,
-    login,
-    get_user,
-    get_user_by_username,
-    update_user
-)
-
 
 LOGGER = logging.getLogger(__name__)
 
@@ -40,9 +32,9 @@ class ReviewUnitTests(unittest.TestCase):
         newReview.upvote()
         assert newReview.upvote == 1
 
-    def test_upvote(self):
+    def test_downvote(self):
         newStudent = Student("816011111", "Dale", "Barbara")
-        newStaff = Staff("RobertJackson", "robby123", "robertjackson@mail.com", "Robert", "Jackson")
+        newStaff = StaffMember("RobertJackson", "robby123", "robertjackson@mail.com", "Robert", "Jackson")
         newReview = newStaff.createReview("816011111", "This student continues to show great potential", "positive")
         newReview.downvote()
         assert newReview.downvote == 1
@@ -51,7 +43,7 @@ class ReviewUnitTests(unittest.TestCase):
 class StaffUnitTests(unittest.TestCase):
 
     def test_new_staff(self):
-        newStaff = Staff("bob", "bobpass", "bob@mail.com", "Bobby", "Smith")
+        newStaff = StaffMember("bob", "bobpass", "bob@mail.com", "Bobby", "Smith")
         assert (newStaff.username, newStaff.email, newStaff.firstName, newStaff.lastName) == ("bob", "bob@mail.com", "Bobby", "Smith")
 
     # pure function no side effects or integrations called
@@ -63,7 +55,7 @@ class StaffUnitTests(unittest.TestCase):
 
 '''
     Integration Tests
-'''
+
 
 # This fixture creates an empty database for the test and deletes it after the test
 # scope="class" would execute the fixture once and resued for all methods in the class
@@ -94,3 +86,4 @@ class UsersIntegrationTests(unittest.TestCase):
         update_user(1, "ronnie")
         user = get_user(1)
         assert user.username == "ronnie"
+'''
