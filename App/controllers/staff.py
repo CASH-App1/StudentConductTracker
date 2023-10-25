@@ -34,7 +34,7 @@ def get_all_staff_json():
     staff = StaffMember.query.all()
     if not staff:
         return []
-    staff = [s.get_json() for s in staff]
+    staff = [s.toDict() for s in staff]
     return staff
 
 
