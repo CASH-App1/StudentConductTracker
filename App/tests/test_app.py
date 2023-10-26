@@ -42,8 +42,8 @@ class StaffUnitTests(unittest.TestCase):
     Integration Tests
 '''
 
-This fixture creates an empty database for the test and deletes it after the test
-scope="class" would execute the fixture once and resued for all methods in the class
+# This fixture creates an empty database for the test and deletes it after the test
+# scope="class" would execute the fixture once and resued for all methods in the class
 @pytest.fixture(autouse=True, scope="module")
 def empty_db():
     app = create_app({'TESTING': True, 'SQLALCHEMY_DATABASE_URI': 'sqlite:///test.db'})
