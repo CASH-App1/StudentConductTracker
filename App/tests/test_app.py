@@ -6,12 +6,12 @@ from App.database import db, create_db
 from App.models import *
 from App.controllers import *
 
-
 LOGGER = logging.getLogger(__name__)
 
 '''
    Unit Tests
 '''
+
 class StudentUnitTests(unittest.TestCase):
 
     def test_new_student(self):
@@ -22,9 +22,20 @@ class StudentUnitTests(unittest.TestCase):
         newStudent = Student(816011111, "Dale", "Barbara")
         #student_json = newStudent.toDict()
         self.assertDictEqual(newStudent.toDict(), {"Student ID":816011111, "First Name":"Dale", "Last Name":"Barbara", "Karma Score":0})
-    
-
+        
+        
 class StaffUnitTests(unittest.TestCase):
+
+    def test_new_staff(self):
+        newStaff = StaffMember("bob", "bobpass", "bob@mail.com", "Bobby", "Smith")
+        assert (newStaff.username, newStaff.email, newStaff.firstName, newStaff.lastName) == ("bob", "bob@mail.com", "Bobby", "Smith")
+
+    # pure function no side effects or integrations called
+    def test_staff_toDict(self):
+        newStaff = StaffMember("bob", "bobpass", "bob@mail.com", "Bobby", "Smith")
+        #staff_json = newStaff.toDict()
+        self.assertDictEqual(newStaff.toDict(), {"Staff ID":None, "First Name":"Bobby", "Last Name":"Smith", "Email":"bob@mail.com", "Username":"bob"})
+    
 
     def test_hashed_password(self):
         password = "mypass"
@@ -38,6 +49,24 @@ class StaffUnitTests(unittest.TestCase):
         newStaff = StaffMember("bob", password, "bob@mail.com", "Bobby", "Smith")
         assert newStaff.check_password(password) 
 
+'''
+    Integration Tests
+'''
+
+class ReviewUnitTests(unittest.TestCase):
+
+    def test_new_review(self):
+        #newStaff = Staff("bob", "bobpass", "bob@mail.com", "Bobby", "Smith")
+        #newReview = newStaff.createReview("816011111", "1", "This student continues to show great potential", "positive")
+        newReview = Review("816011111", "1", "This student continues to show great potential", "positive")
+        assert (newReview.studentID, newReview.staffID, newReview.description, newReview.reviewType) == ("816011111", "1", "This student continues to show great potential", "positive")
+
+    def test_review_toDict(self):
+        newReview = Review(816011111, 1, "This student continues to show great potential", "positive")
+        #review_json = newReview.toDict()
+        self.assertDictEqual(newReview.toDict(), {"Review ID":None, "Student ID":816011111, "Staff ID":1, "Description":"This student continues to show great potential", "Date":datetime.utcnow ,"Upvote":0, "Downvote":0, "Review Type":"positive"})
+
+        
 '''
     Integration Tests
 '''
@@ -58,7 +87,6 @@ def empty_db():
         assert access_token != None
 
 class UsersIntegrationTests(unittest.TestCase):
-
     def test_create_staff(self):
         staff = create_staff("rick", "rickypass123", "rick1@mail.com", "Ricky", "Martin")
         retrieved_staff = get_staff(staff.staffID)
@@ -199,4 +227,4 @@ class UsersIntegrationTests(unittest.TestCase):
 
         self.assertEqual(student_added.firstName, "Lala")
         self.assertEqual(student_added.lastName, "Singhrambatan")
-        
+
