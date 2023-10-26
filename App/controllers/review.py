@@ -23,12 +23,12 @@ def upvote_review(reviewID):
     review = Review.query.get(reviewID)
     
     if review:
-        review.upvoteReview(reviewID)
+        review.upvoteReview()
         student = Student.query.get(review.studentID)
         if student:
             student.updateKarmaScore()
 
-        db.session.add(upvote)
+        db.session.add(review)
         db.session.commit()
         return True
     return False
@@ -38,12 +38,12 @@ def downvote_review(reviewID):
     review = Review.query.get(reviewID)
     
     if review:
-        review.downvoteReview(reviewID)
+        review.downvoteReview()
         student = Student.query.get(review.studentID)
         if student:
             student.updateKarmaScore()
 
-        db.session.add(downvote)
+        db.session.add(review)
         db.session.commit()
         return True
     return False

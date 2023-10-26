@@ -24,7 +24,7 @@ def get_all_staff():
 def update_password(staff_id, new_password):
     staff = StaffMember.query.get(staff_id)
     if staff:
-        staff.password = set_password(new_password)
+        staff.set_password(new_password)
         db.session.add(staff)
         db.session.commit()
         return staff

@@ -16,6 +16,9 @@ class Student(db.Model):
     self.karmaScore = 0
  
   def updateKarmaScore( self):
+    upvotes = 0
+    downvotes = 0
+    karmaScore = 0
     for r in self.reviews:
       upvotes = upvotes + r.upvote 
       downvotes = downvotes + r.downvote

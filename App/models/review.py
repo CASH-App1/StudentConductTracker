@@ -7,7 +7,7 @@ from sqlalchemy.orm import relationship
 class Review(db.Model):
   reviewID = db.Column(db.Integer, primary_key=True)
   studentID = db.Column(db.Integer,  db.ForeignKey('student.studentID'))
-  staffID = db.Column(db.String(5), db.ForeignKey('staff_member.staffID'), nullable=False)
+  staffID = db.Column(db.Integer, db.ForeignKey('staff_member.staffID'), nullable=False)
   description = db.Column(db.String(1000), nullable=False)
   date = db.Column(db.DateTime, default=func.now())
   upvote = db.Column(db.Integer, nullable=False)

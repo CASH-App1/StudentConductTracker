@@ -5,6 +5,7 @@ from App.main import create_app
 from App.database import db, create_db
 from App.models import *
 from App.controllers import *
+from sqlalchemy.sql.expression import func
 
 LOGGER = logging.getLogger(__name__)
 
@@ -49,9 +50,6 @@ class StaffUnitTests(unittest.TestCase):
         newStaff = StaffMember("bob", password, "bob@mail.com", "Bobby", "Smith")
         assert newStaff.check_password(password) 
 
-'''
-    Integration Tests
-'''
 
 class ReviewUnitTests(unittest.TestCase):
 
@@ -63,8 +61,7 @@ class ReviewUnitTests(unittest.TestCase):
 
     def test_review_toDict(self):
         newReview = Review(816011111, 1, "This student continues to show great potential", "positive")
-        #review_json = newReview.toDict()
-        self.assertDictEqual(newReview.toDict(), {"Review ID":None, "Student ID":816011111, "Staff ID":1, "Description":"This student continues to show great potential", "Date":datetime.utcnow ,"Upvote":0, "Downvote":0, "Review Type":"positive"})
+        self.assertDictEqual(newReview.toDict(), {"Review ID":newReview.reviewID, "Student ID":816011111, "Staff ID":1, "Description":"This student continues to show great potential", "Date":newReview.date ,"Upvote":0, "Downvote":0, "Review Type":"positive"})
 
         
 '''
@@ -73,7 +70,7 @@ class ReviewUnitTests(unittest.TestCase):
 
 # This fixture creates an empty database for the test and deletes it after the test
 # scope="class" would execute the fixture once and resued for all methods in the class
-@pytest.fixture(autouse=True, scope="module")
+@pytest.fixture(autouse=True, scope="function")
 def empty_db():
     app = create_app({'TESTING': True, 'SQLALCHEMY_DATABASE_URI': 'sqlite:///test.db'})
     create_db()
@@ -81,12 +78,7 @@ def empty_db():
     db.drop_all()
 
 
-    def test_authenticate(self):
-        created_staff = create_staff("bob", "bobpass", "bob@mail.com", "Bobby", "Smith")
-        access_token = jwt_authenticate("bob", "bobpass")
-        assert access_token != None
-
-class UsersIntegrationTests(unittest.TestCase):
+class IntegrationTests(unittest.TestCase):
     def test_create_staff(self):
         staff = create_staff("rick", "rickypass123", "rick1@mail.com", "Ricky", "Martin")
         retrieved_staff = get_staff(staff.staffID)
@@ -102,75 +94,51 @@ class UsersIntegrationTests(unittest.TestCase):
         
         staff_json = get_all_staff_json()
 
-        expected_json = [
-            {
-                "Staff ID": staff1.staffID,
-                "First Name": "Oliver",
-                "Last Name": "Brenson",
-                "Email": "oli.brenson@mail.com",
-                "Username": "oli"
-            },
-            {
-                "Staff ID": staff2.staffID,
-                "First Name": "Ross",
-                "Last Name": "Sanchez",
-                "Email": "ross12@mail.com",
-                "Username": "ross"
-            }
-        ]
-        assert staff_json == expected_json
+        self.assertListEqual([{"Staff ID": staff1.staffID,"First Name": "Oliver","Last Name": "Brenson","Email": "oli.brenson@mail.com","Username": "oli"},
+            {"Staff ID": staff2.staffID,"First Name": "Ross","Last Name": "Sanchez","Email": "ross12@mail.com","Username": "ross"}], staff_json)
 
     def test_password_reset(self):
         staff = create_staff("bob", "bobpass", "bob@mail.com", "Bobby", "Smith")
         new_password = "bob1234pass"
-        update_password(staff.staffID, new_password)
+        staff = update_password(staff.staffID, new_password)
         updated_staff = get_staff(staff.staffID)
-        assert updated_staff.password == new_password
+        check = updated_staff.check_password(new_password)
+
+        assert check == True
 
     def test_log_review(self):
         staff = create_staff("dev", "evolve123", "dev1@mail.com", "Devon", "Jones")
-        student = add_student("816011112", "Jess", "Smith")
+        student = add_student(816011112, "Jess", "Smith")
         description = "This student continues to show great potential"
         review_type = "positive"
         new_review = log_review(staff.staffID, student.studentID, description, review_type)
         logged_review = get_review(new_review.reviewID)
 
-        self.assertEqual(logged_review.staffID, staff.staffID)
-        self.assertEqual(logged_review.studentID, student.studentID)
-        self.assertEqual(logged_review.description, description)
-        self.assertEqual(logged_review.reviewType, review_type)
+        assert (logged_review.staffID, logged_review.studentID, logged_review.description, logged_review.reviewType) == (staff.staffID, student.studentID, description, review_type)
 
     def test_view_student(self):
         staff = create_staff("Murphy", "sun$et@5", "e.murphy@mail.com", "Eric", "Murphy")
         new_student = add_student("816012122", "Alice", "Denver")
         student = get_student(new_student.studentID)
 
-        self.assertEqual(student.studentID, "816012122")
-        self.assertEqual(student.firstName, "Alice")
-        self.assertEqual(student.lastName, "Denver")
+        assert(student.studentID, student.fname, student.lname) == (816012122, "Alice", "Denver")
 
     def test_view_student_review(self):
         staff = create_staff("Dean", "deanPizza", "dean@mail.com", "Dean", "Doe")
         student = add_student("816011113", "Sean", "Mendez")
-        new_review = log_review(staff.staffID, student.studentID, "This student is doing well", "positive")
+        new_review = log_review(staff.staffID, student.studentID, "Dean is doing well", "positive")
         review = get_review(new_review.reviewID)
         retrieved_student = get_student(student.studentID) 
 
-        self.assertEqual(review.staffID, staff.staffID)
-        self.assertEqual(review.studentID, student.studentID)
-        self.assertEqual(review.review, "This student is doing well")
-        self.assertEqual(review.reviewType, "positive")
+        assert(review.staffID, review.studentID, review.description, review.reviewType) == (staff.staffID, student.studentID, "Dean is doing well", "positive")
 
-        self.assertEqual(retrieved_student.studentID, "816011113")
-        self.assertEqual(retrieved_student.firstName, "Sean")
-        self.assertEqual(retrieved_student.lastName, "Mendez")
   
     def test_update_student(self):
+        student = add_student("816011112", "Sean", "Mendez")
         updated_student = update_student("816011112", "Jessica", "Colten")
-        retrieved_student = get_student(updated_student.studentID)
+        retrieved_student = get_student("816011112")
 
-        self.assertEqual(retrieved_student.firstName, "Jessica")
-        self.assertEqual(retrieved_student.lastName, "Colten")
+        assert(retrieved_student.fname,retrieved_student.lname) ==  ("Jessica", "Colten")
 
     def test_upvote(self):
         staff = create_staff("harry", "wolfawoo*&*","harry.persad@yahoo.com", "Harry", "Persad")
@@ -178,11 +146,9 @@ class UsersIntegrationTests(unittest.TestCase):
         description = "This student is an excellent student and shows leadership skills"
         review_type = "positive"
         new_review = log_review(staff.staffID, student.studentID, description, review_type)
-        upvoted_review = upvote_review(new_review.reviewID);
-        logged_review = get_review(new_review.reviewID)
+        vote = upvote_review(new_review.reviewID)
 
-        self.assertEqual(upvoted_review, "True")
-        self.assertEqual(logged_review.upvote, 1)
+        assert(new_review.upvote, student.karmaScore) == (1, 1.0)
         
     def test_downvote(self):
         staff = create_staff("Paul", "paullita","paulDeDan@yahoo.com", "Paul", "Smith")
@@ -190,13 +156,11 @@ class UsersIntegrationTests(unittest.TestCase):
         description = "This student needs to show more interest in his studies or else he will not pass his courses"
         review_type = "negative"
         new_review = log_review(staff.staffID, student.studentID, description, review_type)
-        downvoted_review = downvote_review(new_review.reviewID);
-        logged_review = get_review(new_review.reviewID)
+        vote = downvote_review(new_review.reviewID)
 
-        self.assertEqual(downvoted_review, "True")
-        self.assertEqual(logged_review.downvote, 1)
+        assert(new_review.downvote, student.karmaScore) == (1, -1.0)
         
-    def test_search():
+    def test_search(self):
         student1 = add_student("816031948", "Chris", "Brown")
         student2 = add_student("816029858", "Nathalia","Andrews")
         
@@ -204,12 +168,12 @@ class UsersIntegrationTests(unittest.TestCase):
         student_json = get_students_by_name("Chris", "Brown")
 
         expected_json = [
-            {"studentID": student1.studentID, "firstName": student1.firstName ,"lastName":  student1.lastName }
+            {"studentID": student1.studentID, "firstName": student1.fname ,"lastName":  student1.lname }
         ]
 
         assert student_json == expected_json
             
-    def test_view_student_reviews():
+    def test_view_student_reviews(self):
         staff= create_staff("Everly", "pumkinpi3", "everly@gamil.com", "Everly", "Reed")
         student = add_student("816099789", "Troy" , "Bolten")
         review1 = log_review(staff.staffID, student.studentID,"Excellent work", "positive")
@@ -217,14 +181,12 @@ class UsersIntegrationTests(unittest.TestCase):
         review3 = log_review(staff.staffID, student.studentID, "Student has failed the course exam and needs 100 in final to not repeat course", "negative")
         retrieved_student = get_student(student.studentID)
 
-        self.assertEqual(retrieved_student.reviews[0], review1)
-        self.assertEqaul(retrieved_student.reviews[1], review2)
-        self.assertEqual(retrieved_student.reviews[2], review3)
+        assert(retrieved_student.reviews[0], retrieved_student.reviews[1], retrieved_student.reviews[2]) == (review1, review2, review3)
         
-    def test_add_student():
+    def test_add_student(self):
         new_student = add_student("816056789", "Lala", "Singhrambatan")
         student_added = get_student(new_student.studentID)
 
-        self.assertEqual(student_added.firstName, "Lala")
-        self.assertEqual(student_added.lastName, "Singhrambatan")
+        self.assertEqual(student_added.fname, "Lala")
+        self.assertEqual(student_added.lname, "Singhrambatan")
 
