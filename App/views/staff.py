@@ -37,15 +37,6 @@ def view_review():
         return jsonify(error='Review not found'), 400
     return jsonify(error='Student not found'), 400
 
-@user_views.route('/view/student/reviews', methods=['GET'])
-@login_required
-def view_reviews():
-    data = request.json
-    student = get_student(data['studentID'])
-    if student:
-        return jsonify(student.reviews), 200
-    return jsonify(error='Student not found'), 400
-
 
 @user_views.route('/add-student', methods=['POST'])
 @login_required
