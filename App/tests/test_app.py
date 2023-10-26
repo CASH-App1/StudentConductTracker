@@ -21,9 +21,9 @@ class ReviewUnitTests(unittest.TestCase):
         assert (newReview.studentID, newReview.staffID, newReview.description, newReview.reviewType) == ("816011111", "1", "This student continues to show great potential", "positive")
 
     def test_review_toDict(self):
-        newReview = Review("816011111", "1", "This student continues to show great potential", "positive")
+        newReview = Review(816011111, 1, "This student continues to show great potential", "positive")
         #review_json = newReview.toDict()
-        self.assertDictEqual(newReview.toDict(), {"Review ID":1, "Student ID":816011111, "Staff ID":None, "Description":"This student continues to show great potential", "Date":datetime.utcnow ,"Upvote":0, "Downvote":0, "Review Type":"positive"})
+        self.assertDictEqual(newReview.toDict(), {"Review ID":None, "Student ID":816011111, "Staff ID":1, "Description":"This student continues to show great potential", "Date":datetime.utcnow ,"Upvote":0, "Downvote":0, "Review Type":"positive"})
 
     
 
