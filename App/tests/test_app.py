@@ -46,7 +46,6 @@ class StaffUnitTests(unittest.TestCase):
 
     def test_check_password(self):
         password = "mypass"
-
         newStaff = StaffMember("bob", password, "bob@mail.com", "Bobby", "Smith")
         assert newStaff.check_password(password) 
 
