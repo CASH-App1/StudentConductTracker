@@ -8,7 +8,7 @@ class Review(db.Model):
   studentID = db.Column(db.Integer,  db.ForeignKey('student.studentID'))
   staffID = db.Column(db.String(5), db.ForeignKey('staff_member.staffID'), nullable=False)
   description = db.Column(db.String(1000), nullable=False)
-  date = db.Column(db.DateTime, default = datetime.utcnow)
+  date = db.Column(db.DateTime, default=datetime.utcnow)
   upvote = db.Column(db.Integer, nullable=False)
   downvote = db.Column(db.Integer, nullable=False)
   reviewType = db.Column(db.String(8), nullable=False)
@@ -26,7 +26,7 @@ class Review(db.Model):
       'Student ID': self.studentID,
       'Staff ID': self.staffID,
       'Description' : self.description,
-      'Date' : self.created.strftime("%Y/%m/%d, %H:%M: %S"),
+      'Date' : self.date.strftime("%Y/%m/%d, %H:%M:%S"),
       'Upvote': self.upvote,
       'Downvote': self.downvote,
       'Review Type' : self.type
