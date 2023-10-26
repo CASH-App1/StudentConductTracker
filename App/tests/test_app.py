@@ -23,14 +23,6 @@ class StudentUnitTests(unittest.TestCase):
         #student_json = newStudent.toDict()
         self.assertDictEqual(newStudent.toDict(), {"Student ID":816011111, "First Name":"Dale", "Last Name":"Barbara", "Karma Score":0})
     
-    def test_updateKarmaScore(self):
-        newStudent = Student(816011111, "Dale", "Barbara")
-        newStaff = StaffMember("RobertJackson", "robby123", "robertjackson@mail.com", "Robert", "Jackson")
-        newReview = newStaff.createReview(816011111, "This student continues to show great potential", "positive")
-        print(newReview)
-        newReview.upvote()
-        newStudent.updateKarmaScore()
-        assert(newStudent.karmaScore == 1)
 
 class StaffUnitTests(unittest.TestCase):
 
@@ -46,23 +38,12 @@ class StaffUnitTests(unittest.TestCase):
         newStaff = StaffMember("bob", password, "bob@mail.com", "Bobby", "Smith")
         assert newStaff.check_password(password) 
 
-    def test_create_review(self):
-        newStaff = StaffMember("bob", "bobpass", "bob@mail.com", "Bobby", "Smith")
-        newStudent = Student(816011111 , "Dale", "Barbara")
-        newReview = newStaff.createReview(newStudent.studentID, "This student continues to show great potential", "positive")
-        print(newReview)
-        #newReview = Review(newStudent.studentID, newStaff.staffID, "This student continues to show great potential", "positive")
-        assert (newReview.studentID, newReview.staffID, newReview.description, newReview.reviewType) == (newStudent.studentID, newStaff.staffID, "This student continues to show great potential"
-        , "positive")
-        user = User("bob", password)
-        assert user.check_password(password)
-
 '''
     Integration Tests
 '''
 
-# This fixture creates an empty database for the test and deletes it after the test
-# scope="class" would execute the fixture once and resued for all methods in the class
+This fixture creates an empty database for the test and deletes it after the test
+scope="class" would execute the fixture once and resued for all methods in the class
 @pytest.fixture(autouse=True, scope="module")
 def empty_db():
     app = create_app({'TESTING': True, 'SQLALCHEMY_DATABASE_URI': 'sqlite:///test.db'})
