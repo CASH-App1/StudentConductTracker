@@ -81,10 +81,7 @@ class IntegrationTests(unittest.TestCase):
     def test_create_staff(self):
         staff = create_staff("rick", "rickypass123", "rick1@mail.com", "Ricky", "Martin")
         retrieved_staff = get_staff(staff.staffID)
-        self.assertEqual(retrieved_staff.username, "rick")
-        self.assertEqual(retrieved_staff.email, "rick1@mail.com")
-        self.assertEqual(retrieved_staff.firstName, "Ricky")
-        self.assertEqual(retrieved_staff.lastName, "Martin")
+        assert(retrieved_staff.username, retrieved_staff.email, retrieved_staff.firstName, retrieved_staff.lastName) == ("rick", "rick1@mail.com", "Ricky", "Martin")
 
 
     def test_get_all_staff_json(self):
