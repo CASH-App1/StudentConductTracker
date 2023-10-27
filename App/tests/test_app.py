@@ -79,8 +79,8 @@ def empty_db():
 
 class IntegrationTests(unittest.TestCase):
     def test_login(self):
-        staff = create_staff("rick", "rickypass123", "rick1@mail.com", "Ricky", "Martin")
-        assert login("rick", "rickypass123") != None
+        staff = create_staff("steve", "Stevie123", "steve11@mail.com", "Steven", "Williams")
+        assert login("steve", "Stevie123") != None
 
     def test_create_staff(self):
         staff = create_staff("rick", "rickypass123", "rick1@mail.com", "Ricky", "Martin")
