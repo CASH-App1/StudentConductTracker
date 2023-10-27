@@ -78,6 +78,10 @@ def empty_db():
 
 
 class IntegrationTests(unittest.TestCase):
+    def test_login(self):
+        staff = create_staff("rick", "rickypass123", "rick1@mail.com", "Ricky", "Martin")
+        assert login("rick", "rickypass123") != None
+
     def test_create_staff(self):
         staff = create_staff("rick", "rickypass123", "rick1@mail.com", "Ricky", "Martin")
         retrieved_staff = get_staff(staff.staffID)
@@ -183,6 +187,5 @@ class IntegrationTests(unittest.TestCase):
         new_student = add_student("816056789", "Lala", "Singhrambatan")
         student_added = get_student(new_student.studentID)
 
-        self.assertEqual(student_added.fname, "Lala")
-        self.assertEqual(student_added.lname, "Singhrambatan")
+        assert(student_added.fname, student_added.lname) == ("Lala", "Singhrambatan")
 
