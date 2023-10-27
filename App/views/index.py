@@ -14,3 +14,6 @@ def init():
     db.create_all()
     create_staff('bob', 'bobpass', 'bob@email.com', 'Bob', 'Doe')
     return jsonify(message='db initialized!')
+
+if __name__ == "__main__":
+  app.run(host='0.0.0.0', port=81)

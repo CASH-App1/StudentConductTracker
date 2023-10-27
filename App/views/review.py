@@ -7,15 +7,20 @@ from App.controllers import *
 review_views = Blueprint('review_views', __name__, template_folder='../templates')
 
 @review_views.route('/view/student/review', methods=['PUT'])
-@login_required
+@jwt_required()
 def karma_rank():
     data = request.json
-    if data['vote'] == 'upvote':
-        upvote = upvote_review(data['reviewID'])
-    else:
-        downvote = downvote_review(data['reviewID'])
+    student = Student.query.get(data['studentID'])
+    if student: 
+        if data['vote'] == 'upvote':
+            upvote = upvote_review(data['reviewID'])
+        else:
+            downvote = downvote_review(data['reviewID'])
 
-    if upvote or downvote:
-        return jsonify(message = 'Vote added successfully'), 200
-    return jsonify(error='Vote unsuccessful'), 400
+        if upvote or downvote:
+            return jsonify(message = 'Vote added successfully'), 200
+        return jsonify(error='Vote unsuccessful'), 400
+    return jsonify(error= "Student not found"), 400
 
+if __name__ == "__main__":
+  app.run(host='0.0.0.0', port=81)
